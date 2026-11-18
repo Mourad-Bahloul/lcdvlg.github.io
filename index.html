@@ -3,49 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livret d'Accueil 4 Langues | Logement Villeneuve-la-Garenne</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Livret d'Accueil & Brochures Touristiques — Villeneuve-la-Garenne (FR / EN / DE / ES)</title>
+    <!-- Chargement de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <!-- Chargement des polices Google Fonts (Playfair Display & Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Phosphor Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Chargement des icônes Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- QRCode.js pour générer un vrai QR code scannable -->
+    <!-- Chargement de QRCode.js pour générer un vrai QR code scannable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <!-- Configuration Tailwind personnalisée -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
                         cream: {
-                            50: '#FDFBF7',
-                            100: '#F6F2EA',
-                            200: '#EAE2D3',
+                            50: '#FAF8F5',
+                            100: '#F3EFEA',
+                            200: '#E5DEC9',
                         },
                         slate: {
                             850: '#1E293B',
                             900: '#0F172A',
                         },
                         terracotta: {
-                            500: '#C86D51',
-                            600: '#B0573C',
-                            700: '#8F422B',
+                            500: '#C85A32',
+                            600: '#B04A25',
+                            700: '#8F391A',
                         },
                         gold: {
                             500: '#C59B27',
-                            600: '#A67F1A',
                         }
                     }
                 }
@@ -53,21 +47,25 @@
         }
     </script>
 
-    <!-- Styles spécifiques pour le multilingue 4 langues et l'impression PDF compacte -->
     <style>
-        body {
-            background-color: #FDFBF7;
-            color: #1E293B;
-            -webkit-font-smoothing: antialiased;
-        }
+        /* Gestion de l'affichage quadrilingue : Toutes les langues (4), FR, EN, DE ou ES */
+        body.lang-fr .lang-en,
+        body.lang-fr .lang-de,
+        body.lang-fr .lang-es { display: none !important; }
 
-        /* Gestion de l'affichage des 4 langues (FR, EN, DE, ES) */
-        body.lang-fr .lang-en, body.lang-fr .lang-de, body.lang-fr .lang-es { display: none !important; }
-        body.lang-en .lang-fr, body.lang-en .lang-de, body.lang-en .lang-es { display: none !important; }
-        body.lang-de .lang-fr, body.lang-de .lang-en, body.lang-de .lang-es { display: none !important; }
-        body.lang-es .lang-fr, body.lang-es .lang-en, body.lang-es .lang-de { display: none !important; }
+        body.lang-en .lang-fr,
+        body.lang-en .lang-de,
+        body.lang-en .lang-es { display: none !important; }
 
-        /* En mode "Toutes les langues (4)", grille compacte 2x2 ou empilement propre */
+        body.lang-de .lang-fr,
+        body.lang-de .lang-en,
+        body.lang-de .lang-es { display: none !important; }
+
+        body.lang-es .lang-fr,
+        body.lang-es .lang-en,
+        body.lang-es .lang-de { display: none !important; }
+
+        /* En mode "Toutes les langues (4)", grille compacte 2x2 */
         body.lang-all .lang-grid-4 {
             display: grid;
             grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -79,12 +77,36 @@
             }
         }
 
+        /* Mode Accessibilité : Caractères Agrandis & Contraste Élevé (Malvoyants) */
+        html.a11y-large {
+            font-size: 125%;
+        }
+        body.a11y-contrast {
+            background-color: #FFFFFF !important;
+            color: #000000 !important;
+        }
+        body.a11y-contrast .brochure-card {
+            border: 2px solid #0F172A !important;
+            background-color: #FFFFFF !important;
+        }
+        body.a11y-contrast .bg-cream-50 {
+            background-color: #F8FAFC !important;
+            border-color: #64748B !important;
+        }
+        body.a11y-contrast p, body.a11y-contrast span {
+            color: #0F172A !important;
+        }
+        body.a11y-contrast header p, body.a11y-contrast header span, body.a11y-contrast header div,
+        body.a11y-contrast .bg-slate-900 span, body.a11y-contrast .bg-terracotta-600 span {
+            color: inherit !important;
+        }
+
         /* Styles dédiés à l'export PDF / Impression compacte pour l'organisme de classement */
         @media print {
             body {
-                background-color: #FFFFFF !important;
+                background: #FFFFFF !important;
                 color: #000000 !important;
-                font-size: 9.5pt;
+                font-size: 11pt;
             }
             .no-print {
                 display: none !important;
@@ -92,106 +114,58 @@
             .brochure-card {
                 break-inside: avoid;
                 page-break-inside: avoid;
-                border: 1px solid #CBD5E1 !important;
                 box-shadow: none !important;
+                border: 1px solid #CBD5E1 !important;
                 margin-bottom: 0.75rem;
-                padding: 0.75rem !important;
             }
             header {
-                padding-top: 0.75rem !important;
-                padding-bottom: 0.75rem !important;
-            }
-            main {
-                padding-top: 0.75rem !important;
-                padding-bottom: 0.75rem !important;
-            }
-            /* Force l'affichage des 4 langues à l'impression pour la preuve de classement */
-            body .lang-fr, body .lang-en, body .lang-de, body .lang-es {
-                display: block !important;
-            }
-            body .lang-grid-4 {
-                display: grid !important;
-                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-                gap: 0.4rem !important;
+                background: #0F172A !important;
+                color: #FFFFFF !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
         }
     </style>
 </head>
-<body class="lang-all min-h-screen flex flex-col justify-between selection:bg-terracotta-500 selection:text-white">
+<body class="bg-cream-50 text-slate-850 font-sans antialiased lang-all selection:bg-terracotta-500 selection:text-white">
 
-    <!-- BARRE DE NAVIGATION & SÉLECTEUR 4 LANGUES -->
+    <!-- BARRE DE NAVIGATION & OUTILS (Masquée à l'impression) -->
     <nav class="no-print sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-cream-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2.5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2">
             
-            <!-- Sélecteur de langue 4 langues -->
+            <!-- Sélecteur de langue (4 langues + mode simultané) -->
             <div class="flex flex-wrap items-center gap-1 bg-cream-100 p-1 rounded-xl border border-cream-200" role="group" aria-label="Sélecteur de langue">
-                <button onclick="setLanguage('all')" id="btn-lang-all" class="lang-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-900 text-white shadow-sm flex items-center gap-1.5">
-                    <i class="ph ph-globe text-sm"></i>
-                    <span>Toutes les langues (4)</span>
+                <button onclick="setLanguage('all')" id="btn-lang-all" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-900 text-white shadow-sm">
+                    🌍 4 Langues (FR/EN/DE/ES)
                 </button>
-                <button onclick="setLanguage('fr')" id="btn-lang-fr" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white/70 transition-all">
+                <button onclick="setLanguage('fr')" id="btn-lang-fr" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white transition-all">
                     🇫🇷 Français
                 </button>
-                <button onclick="setLanguage('en')" id="btn-lang-en" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white/70 transition-all">
+                <button onclick="setLanguage('en')" id="btn-lang-en" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white transition-all">
                     🇬🇧 English
                 </button>
-                <button onclick="setLanguage('de')" id="btn-lang-de" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white/70 transition-all">
+                <button onclick="setLanguage('de')" id="btn-lang-de" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white transition-all">
                     🇩🇪 Deutsch
                 </button>
-                <button onclick="setLanguage('es')" id="btn-lang-es" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white/70 transition-all">
+                <button onclick="setLanguage('es')" id="btn-lang-es" class="lang-btn px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-700 hover:bg-white transition-all">
                     🇪🇸 Español
                 </button>
             </div>
 
-            <!-- Actions Propriétaire / Classement -->
-            <div class="flex items-center gap-2">
-                <!--
-                <button onclick="toggleSettingsPanel()" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-cream-100 hover:bg-cream-200 text-slate-800 border border-cream-200 transition-colors flex items-center gap-1.5">
-                    <i class="ph ph-sliders-horizontal text-sm text-terracotta-600"></i>
-                    <span>Personnaliser le logement</span>
+            <!-- Actions Accessibilité & Export PDF -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="toggleAccessibilityMode()" id="btn-a11y" aria-pressed="false" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-100 hover:bg-amber-200 text-slate-900 border border-amber-300 transition-colors flex items-center gap-1.5" title="Agrandir les caractères et renforcer le contraste">
+                    <i class="ph-bold ph-eye text-sm text-amber-800"></i>
+                    <span>Caractères agrandis (A+)</span>
                 </button>
-                -->
+                <button onclick="speakPageSummary()" id="btn-audio-global" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-sky-100 hover:bg-sky-200 text-sky-950 border border-sky-300 transition-colors flex items-center gap-1.5" title="Écouter la présentation audio">
+                    <i class="ph-fill ph-speaker-high text-sm text-sky-700"></i>
+                    <span id="label-audio-global">Écouter (Audio)</span>
+                </button>
                 <button onclick="window.print()" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-terracotta-600 hover:bg-terracotta-700 text-white shadow-sm transition-all flex items-center gap-1.5">
                     <i class="ph ph-printer text-sm"></i>
                     <span>Imprimer / Export PDF</span>
                 </button>
-            </div>
-        </div>
-
-        <!-- PANNEAU DE PERSONNALISATION RAPIDE -->
-        <div id="settings-panel" class="hidden bg-cream-100 border-t border-cream-200 transition-all">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                        <i class="ph ph-house-line text-terracotta-600 text-base"></i>
-                        Personnalisation du Logement (Villeneuve-la-Garenne)
-                    </h3>
-                    <button onclick="toggleSettingsPanel()" class="text-slate-500 hover:text-slate-800 p-1 rounded-lg">
-                        <i class="ph ph-x text-base"></i>
-                    </button>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Titre du livret / Logement</label>
-                        <input type="text" id="input-property-name" value="Bienvenue à Villeneuve-la-Garenne — Votre Logement aux portes de Paris" oninput="updatePropertyInfo()" class="w-full px-3 py-1.5 text-xs bg-white border border-cream-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-terracotta-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Adresse exacte</label>
-                        <input type="text" id="input-property-address" value="Villeneuve-la-Garenne (92390), Île-de-France" oninput="updatePropertyInfo()" class="w-full px-3 py-1.5 text-xs bg-white border border-cream-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-terracotta-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Réseau & Code Wi-Fi</label>
-                        <input type="text" id="input-property-wifi" value="WIFI communiqué à l'arrivée" oninput="updatePropertyInfo()" class="w-full px-3 py-1.5 text-xs bg-white border border-cream-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-terracotta-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Numéro d'urgence Hôte</label>
-                        <input type="text" id="input-property-phone" value="+33 (0)6 60 70 95 71" oninput="updatePropertyInfo()" class="w-full px-3 py-1.5 text-xs bg-white border border-cream-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-terracotta-500">
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">URL du livret (QR Code)</label>
-                       <input type="url" id="input-property-url" value="https://mourad-bahloul.github.io/lcdvlg.github.io/" oninput="updatePropertyInfo()" class="w-full px-3 py-1.5 text-xs bg-white border border-cream-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-terracotta-500">
-                    </div>
-                </div>
             </div>
         </div>
     </nav>
@@ -205,9 +179,15 @@
                 
                 <!-- Titre et présentation quadrilingue synthétique -->
                 <div class="max-w-3xl">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[11px] font-semibold tracking-wide mb-3">
-                        <i class="ph-fill ph-seal-check text-sm"></i>
-                        <span>Conformité Classement Meublé de Tourisme : 6 brochures multilingues (FR / EN / DE / ES)</span>
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[11px] font-semibold tracking-wide">
+                            <i class="ph-fill ph-seal-check text-sm"></i>
+                            <span>6 Brochures Multilingues (FR / EN / DE / ES)</span>
+                        </div>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-300/30 text-amber-200 text-[11px] font-semibold tracking-wide">
+                            <i class="ph-fill ph-wheelchair text-sm"></i>
+                            <span>Document Accessible : Caractères Agrandis • Audio • Pictogrammes</span>
+                        </div>
                     </div>
                     
                     <h1 id="display-property-name" class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-2">
@@ -235,15 +215,21 @@
                     <div class="flex items-center justify-between gap-3">
                         <div class="space-y-2 text-xs min-w-0">
                             <div>
-                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 block">Wi-Fi Logement</span>
-                                <span id="display-property-wifi" class="font-mono text-gold-500 font-semibold break-all">Logement_VLG_WiFi / Clé : Paris2026</span>
+                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 flex items-center gap-1">
+                                    <i class="ph-bold ph-wifi-high text-gold-500"></i> Wi-Fi Logement
+                                </span>
+                                <span id="display-property-wifi" class="font-mono text-gold-500 font-semibold break-all">Communiqué sur place</span>
                             </div>
                             <div>
-                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 block">Contact Hôte / Host</span>
+                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 flex items-center gap-1">
+                                    <i class="ph-bold ph-phone-call text-emerald-300"></i> Contact Hôte / Host
+                                </span>
                                 <span id="display-property-phone" class="font-medium text-white">+33 (0)6 60 70 95 71</span>
                             </div>
                             <div>
-                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 block">Urgences / Emergency</span>
+                                <span class="text-[10px] uppercase tracking-wider text-cream-200/70 flex items-center gap-1">
+                                    <i class="ph-bold ph-siren text-rose-300"></i> Urgences / Emergency
+                                </span>
                                 <span class="font-bold text-rose-300">112 (UE) • 15 (SAMU) • 17 (Police)</span>
                             </div>
                         </div>
@@ -266,245 +252,206 @@
     </header>
 
     <!-- CONTENU PRINCIPAL : GRILLE DES 6 BROCHURES QUADRILINGUES -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-3 border-b border-cream-200">
             <div>
                 <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-900">
-                    Brochures Touristiques & Informations Locales (FR • EN • DE • ES)
+                    Brochures d'Informations Locales & Touristiques
                 </h2>
-                <p class="text-xs text-slate-600 mt-0.5">
-                    Cliquez sur « Fiche détaillée » pour afficher les itinéraires complets et horaires dans les 4 langues.
+                <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                    6 dépliants synthétiques disponibles en Français, Anglais, Allemand et Espagnol • Pictogrammes & Lecture Audio.
                 </p>
+            </div>
+            <div class="mt-2 sm:mt-0 text-xs font-medium text-slate-500">
+                Conformité Classement : 6 brochures / 4 langues
             </div>
         </div>
 
-        <!-- GRILLE DES 6 BROCHURES -->
-        <div id="brochures-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <!-- Généré dynamiquement via JS -->
+        <!-- Grille des 6 brochures générée dynamiquement -->
+        <div id="brochures-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Injecté via JavaScript -->
         </div>
 
     </main>
 
     <!-- PIED DE PAGE -->
-    <footer class="bg-cream-100 border-t border-cream-200 mt-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-600">
-            <div>
-                <strong class="text-slate-900" id="footer-property-name">Logement Villeneuve-la-Garenne (92390)</strong> — Livret d'accueil multilingue.
+    <footer class="bg-white border-t border-cream-200 py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            <div class="flex items-center gap-2">
+                <i class="ph-fill ph-compass text-terracotta-600 text-lg"></i>
+                <span>Livret d'Accueil Numérique & Imprimable • Logement Villeneuve-la-Garenne (92390)</span>
             </div>
-            <div class="text-slate-500">
-                Document conforme au référentiel de classement des meublés de tourisme (6 brochures en 4 langues : FR, EN, DE, ES).
+            <div class="text-center sm:text-right">
+                FR • EN • DE • ES — Accessible (Caractères agrandis, Audio, Pictogrammes)
             </div>
         </div>
     </footer>
 
-    <!-- MODALE DÉTAILLÉE QUADRILINGUE -->
-    <div id="brochure-modal" class="no-print fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-
-        <div class="flex min-h-full items-center justify-center p-4">
-            <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-cream-200 overflow-hidden">
-                
-                <!-- En-tête Modale -->
-                <div class="bg-slate-900 text-white p-5 sm:p-6 relative">
-                    <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Fermer">
-                        <i class="ph ph-x text-lg"></i>
-                    </button>
-                    
-                    <div class="flex items-center gap-2 mb-2">
-                        <span id="modal-badge-num" class="px-2.5 py-0.5 rounded bg-terracotta-500 text-white text-[11px] font-bold uppercase">Brochure 01</span>
-                        <span class="px-2.5 py-0.5 rounded bg-white/15 text-cream-100 text-[11px] font-semibold">🇫🇷 FR • 🇬🇧 EN • 🇩🇪 DE • 🇪🇸 ES</span>
-                    </div>
-
-                    <h3 id="modal-title" class="font-serif text-xl sm:text-2xl font-bold text-white">
-                        Titre
-                    </h3>
+    <!-- MODALE : LECTURE DÉTAILLÉE D'UNE BROCHURE (4 LANGUES) -->
+    <div id="brochure-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm" role="dialog" aria-modal="true">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-cream-200">
+            <div class="sticky top-0 bg-white/95 backdrop-blur-md px-6 py-4 border-b border-cream-200 flex items-center justify-between z-10">
+                <div class="flex items-center gap-3">
+                    <span id="modal-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-terracotta-500/10 text-terracotta-700">Brochure</span>
+                    <span id="modal-time" class="text-xs text-slate-500 font-medium"></span>
                 </div>
-
-                <!-- Corps Modale (4 langues synthétiques et claires) -->
-                <div class="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
-                    <div id="modal-lang-blocks" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <!-- Injecté dynamiquement -->
-                    </div>
-
-                    <!-- Encart Pratique & Lien officiel -->
-                    <div class="bg-cream-100 border border-cream-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div class="text-xs text-slate-700 space-y-1">
-                            <div class="font-bold text-slate-900 flex items-center gap-1.5">
-                                <i class="ph-fill ph-info text-terracotta-600"></i>
-                                <span id="modal-practical">Infos pratiques</span>
-                            </div>
-                            <div id="modal-access" class="text-slate-600">Accès</div>
-                        </div>
-                        <a id="modal-external-link" href="#" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-terracotta-600 text-white text-xs font-semibold transition-colors inline-flex items-center justify-center gap-1.5 shrink-0">
-                            <span>Site officiel / Official Link</span>
-                            <i class="ph ph-arrow-up-right text-sm"></i>
-                        </a>
-                    </div>
-                </div>
-
+                <button onclick="closeModal()" class="p-2 rounded-full hover:bg-cream-100 text-slate-500 hover:text-slate-900 transition-colors" aria-label="Fermer">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 space-y-5">
+                <!-- Contenu injecté dynamiquement -->
             </div>
         </div>
     </div>
 
-    <!-- DONNÉES DES 6 BROCHURES (VILLENEUVE-LA-GARENNE / PARIS) EN 4 LANGUES -->
+    <!-- DONNÉES DES 6 BROCHURES QUADRILINGUES & SCRIPTS -->
     <script>
         const brochuresData = [
             {
                 id: 1,
                 icon: "ph-buildings",
                 accentColor: "bg-terracotta-600",
+                access: "Tram T1 + RER C / RER B (< 30 min)",
                 titles: {
                     fr: "Paris & ses Monuments en moins de 30 min",
-                    en: "Paris & Iconic Monuments in under 30 min",
+                    en: "Paris & Monuments in under 30 min",
                     de: "Paris & Sehenswürdigkeiten in unter 30 Min.",
                     es: "París y sus Monumentos en menos de 30 min"
                 },
                 summaries: {
-                    fr: "Rejoignez le cœur de Paris rapidement : Tramway T1 vers Gennevilliers ou Saint-Denis, Châtelet–Les Halles en moins de 30 min, et accès direct à la Tour Eiffel, au Louvre et à Notre-Dame via le RER C.",
-                    en: "Reach central Paris fast: Tramway T1 to Gennevilliers or Saint-Denis, Châtelet–Les Halles in under 30 min, and direct RER C access to the Eiffel Tower, Louvre, and Notre-Dame.",
-                    de: "Schnell ins Zentrum von Paris: Tram T1 nach Gennevilliers oder Saint-Denis, Châtelet–Les Halles in unter 30 Min. und direkte RER-C-Verbindung zu Eiffelturm, Louvre & Notre-Dame.",
-                    es: "Llegue rápido al centro de París: Tranvía T1 hacia Gennevilliers o Saint-Denis, Châtelet–Les Halles en menos de 30 min y acceso directo en RER C a la Torre Eiffel, el Louvre y Notre-Dame."
+                    fr: "Rejoignez le cœur historique de Paris rapidement : Châtelet–Les Halles en moins de 30 min et accès direct à la Tour Eiffel via le RER C (gare de Gennevilliers).",
+                    en: "Reach the historic heart of Paris quickly: Châtelet–Les Halles in under 30 min and direct access to the Eiffel Tower via RER C (Gennevilliers station).",
+                    de: "Erreichen Sie das Zentrum von Paris schnell: Châtelet–Les Halles in unter 30 Min. und direkt zum Eiffelturm mit der RER C (Bahnhof Gennevilliers).",
+                    es: "Llegue rápido al corazón de París: Châtelet–Les Halles en menos de 30 min y acceso directo a la Torre Eiffel con el RER C (estación Gennevilliers)."
                 },
                 details: {
-                    fr: "• Tour Eiffel / Invalides / Musée d'Orsay : Tram T1 jusqu'à Gare de Gennevilliers puis RER C direct.\n• Châtelet–Les Halles / Notre-Dame : Tram T1 jusqu'à Saint-Denis puis RER D (trajet total < 30 min).\n• Champs-Élysées / Montmartre : Accès rapide via Métro Ligne 13 (Saint-Denis).",
-                    en: "• Eiffel Tower / Invalides / Orsay Museum: Tram T1 to Gennevilliers station, then direct RER C.\n• Châtelet–Les Halles / Notre-Dame: Tram T1 to Saint-Denis, then RER D (total < 30 min).\n• Champs-Élysées / Montmartre: Fast connection via Metro Line 13 (Saint-Denis).",
-                    de: "• Eiffelturm / Invalides / Musée d'Orsay: Tram T1 bis Bahnhof Gennevilliers, dann direkt RER C.\n• Châtelet–Les Halles / Notre-Dame: Tram T1 bis Saint-Denis, dann RER D (gesamt < 30 Min.).\n• Champs-Élysées / Montmartre: Schnelle Anbindung über Metro Linie 13 (Saint-Denis).",
-                    es: "• Torre Eiffel / Inválidos / Museo de Orsay: Tranvía T1 hasta estación Gennevilliers y RER C directo.\n• Châtelet–Les Halles / Notre-Dame: Tranvía T1 hasta Saint-Denis y RER D (total < 30 min).\n• Campos Elíseos / Montmartre: Conexión rápida con Metro Línea 13 (Saint-Denis)."
-                },
-                practical: "Ticket T+ / Pass Navigo Easy aux bornes Tram T1 • Horaires : 05h30 – 01h00",
-                access: "Tramway T1 à proximité immédiate → Gares RER C (Gennevilliers) & RER D (Saint-Denis)",
-                url: "https://parisjetaime.com"
+                    fr: "• Tour Eiffel & Invalides : Tram T1 jusqu'à Gennevilliers puis RER C direct (arrêt Champ de Mars - Tour Eiffel).\n• Centre de Paris (Châtelet–Les Halles, Louvre, Notre-Dame) : Tram T1 jusqu'à Saint-Denis puis RER D ou Métro 13 (< 30 min).\n• Montmartre & Sacré-Cœur : Tram T1 + Métro 13 jusqu'à Place de Clichy / Abbesses.",
+                    en: "• Eiffel Tower & Invalides: Tram T1 to Gennevilliers, then direct RER C (Champ de Mars - Tour Eiffel stop).\n• Central Paris (Châtelet–Les Halles, Louvre, Notre-Dame): Tram T1 to Saint-Denis, then RER D or Metro 13 (< 30 min).\n• Montmartre & Sacré-Cœur: Tram T1 + Metro 13 to Place de Clichy / Abbesses.",
+                    de: "• Eiffelturm & Invalides: Tram T1 bis Gennevilliers, dann direkt RER C (Halt Champ de Mars - Tour Eiffel).\n• Zentrum Paris (Châtelet–Les Halles, Louvre): Tram T1 bis Saint-Denis, dann RER D oder Metro 13 (< 30 Min.).\n• Montmartre: Tram T1 + Metro 13 bis Place de Clichy.",
+                    es: "• Torre Eiffel e Inválidos: Tranvía T1 hasta Gennevilliers y RER C directo (parada Champ de Mars - Tour Eiffel).\n• Centro de París (Châtelet–Les Halles, Louvre): Tranvía T1 hasta Saint-Denis y RER D o Metro 13 (< 30 min).\n• Montmartre: Tranvía T1 + Metro 13."
+                }
             },
             {
                 id: 2,
                 icon: "ph-road-horizon",
-                accentColor: "bg-slate-800",
+                accentColor: "bg-slate-850",
+                access: "Tramway T1 & Autoroute A86",
                 titles: {
-                    fr: "Transports & Accès Autoroutier (A86)",
-                    en: "Public Transit & A86 Highway Access",
-                    de: "Nahverkehr & Autobahnanschluss (A86)",
-                    es: "Transporte Público y Acceso Autopista (A86)"
+                    fr: "Transports en Commun & Accès Rapide A86",
+                    en: "Public Transit & Direct A86 Highway Access",
+                    de: "Nahverkehr & Direkter Autobahnanschluss A86",
+                    es: "Transporte Público y Acceso Directo A86"
                 },
                 summaries: {
-                    fr: "Position stratégique : Tramway T1 au pied de la ville (reliant les gares de Gennevilliers et Saint-Denis) et traversée directe par l'autoroute A86 pour rejoindre facilement Disneyland Paris, La Défense ou Roissy-CDG en voiture.",
-                    en: "Strategic location: Tramway T1 nearby (linking Gennevilliers & Saint-Denis stations) and direct A86 highway access to reach Disneyland Paris, La Défense Arena, or CDG Airport by car.",
-                    de: "Strategische Lage: Tram T1 in direkter Nähe (Bahnhöfe Gennevilliers & Saint-Denis) sowie direkte Anbindung an die Autobahn A86 für Fahrten nach Disneyland Paris, La Défense oder Flughafen CDG.",
-                    es: "Ubicación estratégica: Tranvía T1 cercano (conecta estaciones Gennevilliers y Saint-Denis) y acceso directo por la autopista A86 hacia Disneyland París, La Défense o el aeropuerto CDG en coche."
+                    fr: "Le Tramway T1 relie directement les gares de Gennevilliers (RER C) et Saint-Denis (RER D / Métro 13). En voiture, l'autoroute A86 traverse la ville.",
+                    en: "Tramway T1 connects directly to Gennevilliers (RER C) and Saint-Denis (RER D / Metro 13) stations. By car, the A86 highway crosses the town.",
+                    de: "Die Straßenbahn T1 verbindet direkt die Bahnhöfe Gennevilliers (RER C) und Saint-Denis (RER D / Metro 13). Mit dem Auto liegt die Autobahn A86 direkt vor Ort.",
+                    es: "El tranvía T1 conecta directamente con las estaciones de Gennevilliers (RER C) y Saint-Denis (RER D / Metro 13). En coche, la autopista A86 cruza la ciudad."
                 },
                 details: {
-                    fr: "• Transports en commun : Tram T1 (liaison directe gares de Gennevilliers RER C et Saint-Denis RER D / Ligne H / Métro 13).\n• En voiture via l'A86 (traversant Villeneuve-la-Garenne) : Paris La Défense Arena (15 min), Aéroport Roissy-CDG (20 min), Disneyland Paris (40 min), Château de Versailles (30 min).",
-                    en: "• Public Transport: Tram T1 (direct link to Gennevilliers RER C and Saint-Denis RER D / Line H / Metro 13).\n• By car via A86 (running through Villeneuve-la-Garenne): Paris La Défense Arena (15 min), CDG Airport (20 min), Disneyland Paris (40 min), Palace of Versailles (30 min).",
-                    de: "• ÖPNV: Tram T1 (direkte Verbindung zu Gennevilliers RER C und Saint-Denis RER D / Linie H / Metro 13).\n• Mit dem Auto über die A86 (durch Villeneuve-la-Garenne): Paris La Défense Arena (15 Min.), Flughafen CDG (20 Min.), Disneyland Paris (40 Min.), Schloss Versailles (30 Min.).",
-                    es: "• Transporte público: Tranvía T1 (enlace directo con estaciones Gennevilliers RER C y Saint-Denis RER D / Línea H / Metro 13).\n• En coche por la A86 (cruza Villeneuve-la-Garenne): Paris La Défense Arena (15 min), Aeropuerto CDG (20 min), Disneyland París (40 min), Versalles (30 min)."
-                },
-                practical: "Appli recommandée : Bonjour RATP / Île-de-France Mobilités • Accès A86 immédiat",
-                access: "Autoroute A86 (Sorties 6 / 7) • Tramway T1 • RER C & D",
-                url: "https://www.iledefrance-mobilites.fr"
+                    fr: "• Tramway T1 (à proximité immédiate) : liaison directe vers les pôles ferroviaires de Gennevilliers et Saint-Denis.\n• Autoroute A86 : accès direct vers La Défense (10-15 min), Roissy-CDG (20 min) et Disneyland Paris (35-40 min).\n• Titres de transport : Pass Navigo Easy ou application Île-de-France Mobilités sur smartphone.",
+                    en: "• Tramway T1 (steps away): direct link to Gennevilliers and Saint-Denis train hubs.\n• A86 Highway: fast car access to La Défense (10-15 min), CDG Airport (20 min), and Disneyland Paris (35-40 min).\n• Tickets: Navigo Easy card or Île-de-France Mobilités mobile app.",
+                    de: "• Straßenbahn T1 (in direkter Nähe): Verbindung zu den Bahnhöfen Gennevilliers und Saint-Denis.\n• Autobahn A86: Schnelle Anfahrt nach La Défense (10-15 Min.), Flughafen CDG (20 Min.) und Disneyland Paris (35-40 Min.).\n• Fahrkarten: Navigo Easy Karte oder Île-de-France Mobilités App.",
+                    es: "• Tranvía T1 (muy cerca): enlace directo a las estaciones de Gennevilliers y Saint-Denis.\n• Autopista A86: acceso rápido en coche a La Défense (10-15 min), Aeropuerto CDG (20 min) y Disneyland París (35-40 min).\n• Billetes: Tarjeta Navigo Easy o app Île-de-France Mobilités."
+                }
             },
             {
                 id: 3,
                 icon: "ph-tree",
                 accentColor: "bg-emerald-700",
+                access: "Villeneuve-la-Garenne (Sur place)",
                 titles: {
-                    fr: "Nature, Sport & Loisirs à proximité",
-                    en: "Nature, Sports & Local Leisure",
-                    de: "Natur, Sport & Freizeit vor Ort",
-                    es: "Naturaleza, Deporte y Ocio Local"
+                    fr: "Nature, Sport & Loisirs : Parc des Chanteraines",
+                    en: "Nature, Sports & Leisure: Parc des Chanteraines",
+                    de: "Natur, Sport & Freizeit: Parc des Chanteraines",
+                    es: "Naturaleza, Deporte y Ocio: Parc des Chanteraines"
                 },
                 summaries: {
-                    fr: "Grand bol d'air au Parc des Chanteraines (ferme, petit train, balades) et large choix d'activités sur place ou à 5 min : Piscine, Tennis, Centre de plongée Aqua92, parc de trampolines, cirque et Stade de France.",
-                    en: "Fresh air at Parc des Chanteraines (educational farm, mini-train, trails) plus sports & fun nearby: Swimming pool, Tennis courts, Aqua92 diving center, trampoline park, circus arts, and Stade de France.",
-                    de: "Erholung im Parc des Chanteraines (Bauernhof, Kleinbahn, Wege) sowie Sport & Freizeit vor Ort: Schwimmbad, Tennisplätze, Tauchzentrum Aqua92, Trampolinpark, Zirkuskunst und Stade de France.",
-                    es: "Aire libre en el Parque des Chanteraines (granja, tren turístico, paseos) y deportes cerca: Piscina, Tenis, Centro de buceo Aqua92, parque de trampolines, circo y Stade de France."
+                    fr: "À deux pas du logement : 82 hectares de nature au Parc des Chanteraines (ferme pédagogique, petit train), piscine municipale, tennis et centre de plongée.",
+                    en: "Steps from the accommodation: 82 hectares of nature at Parc des Chanteraines (educational farm, miniature train), swimming pool, tennis, and diving center.",
+                    de: "Nur wenige Schritte entfernt: 82 Hektar Natur im Parc des Chanteraines (Bauernhof, Parkeisenbahn), Schwimmbad, Tennis und Tauchzentrum.",
+                    es: "A un paso del alojamiento: 82 hectáreas de naturaleza en el Parc des Chanteraines (granja escuela, tren turístico), piscina, tenis y centro de buceo."
                 },
                 details: {
-                    fr: "• Parc des Chanteraines (sur place) : 82 hectares de verdure, ferme pédagogique gratuite, petit train touristique et balades.\n• Sports & sensations : Centre de plongée Aqua92 (fosse 20m), Piscine municipale, courts de Tennis, parc de trampolines indoor et arts du cirque (Académie Fratellini à proximité).",
-                    en: "• Parc des Chanteraines (on-site): 82 hectares of parkland, free educational farm, tourist mini-train, and walking paths.\n• Sports & thrills: Aqua92 diving center (20m deep pool), Municipal Swimming Pool, Tennis courts, indoor trampoline park, and circus arts (Académie Fratellini nearby).",
-                    de: "• Parc des Chanteraines (vor Ort): 82 Hektar Grünfläche, kostenloser Lehrbauernhof, Parkeisenbahn und Spazierwege.\n• Sport & Action: Tauchzentrum Aqua92 (20m-Becken), Hallenbad, Tennisplätze, Indoor-Trampolinpark und Zirkuskunst (Académie Fratellini in der Nähe).",
-                    es: "• Parque des Chanteraines (en la ciudad): 82 hectáreas verdes, granja educativa gratuita, tren turístico y senderos.\n• Deportes y diversión: Centro de buceo Aqua92 (fosa de 20m), Piscina municipal, pistas de Tenis, parque de trampolines y circo (Académie Fratellini cercana)."
-                },
-                practical: "Parc des Chanteraines : Entrée libre (07h30 – 21h00) • Réservation conseillée pour plongée/trampoline",
-                access: "Parc des Chanteraines & Centre Aqua92 à Villeneuve-la-Garenne",
-                url: "https://www.villeneuve92.com"
+                    fr: "• Parc départemental des Chanteraines : footing, pistes cyclables, ferme pédagogique gratuite et chemin de fer miniature.\n• Sports aquatiques & raquettes : Piscine municipale, courts de tennis et Centre de plongée (fosse Aqua92).\n• Loisirs indoor & famille : parcs de trampolines et arts du cirque à proximité immédiate.",
+                    en: "• Parc des Chanteraines: jogging trails, cycling paths, free educational farm, and miniature railway.\n• Water & racket sports: Municipal swimming pool, tennis courts, and Aqua92 Scuba Diving Center.\n• Indoor & family fun: trampoline parks and circus arts center right nearby.",
+                    de: "• Parc des Chanteraines: Lauf- und Radwege, kostenloser Lehrbauernhof und Parkeisenbahn.\n• Wasser- & Rückschlagsport: Städtisches Schwimmbad, Tennisplätze und Tauchzentrum Aqua92.\n• Indoor & Familie: Trampolinparks und Zirkusschule in unmittelbarer Nähe.",
+                    es: "• Parc des Chanteraines: senderos para correr, carriles bici, granja educativa gratuita y tren en miniatura.\n• Deportes acuáticos y raqueta: Piscina municipal, pistas de tenis y centro de buceo Aqua92.\n• Ocio interior y familiar: parques de trampolines y escuela de circo muy cerca."
+                }
             },
             {
                 id: 4,
                 icon: "ph-ticket",
-                accentColor: "bg-gold-600",
+                accentColor: "bg-indigo-700",
+                access: "Tram T1 ou Autoroute A86",
                 titles: {
-                    fr: "Grands Spectacles, Concerts & Parcs",
-                    en: "Major Events, Concerts & Theme Parks",
-                    de: "Großveranstaltungen, Konzerte & Freizeitparks",
-                    es: "Grandes Espectáculos, Conciertos y Parques"
+                    fr: "Grands Spectacles, Concerts & Parcs d'Attractions",
+                    en: "Major Concerts, Stadiums & Theme Parks",
+                    de: "Konzerte, Stadien & Freizeitparks",
+                    es: "Grandes Conciertos, Estadios y Parques Temáticos"
                 },
                 summaries: {
-                    fr: "Assistez aux plus grands événements : le Stade de France est à quelques minutes via le Tram T1, Paris La Défense Arena et Disneyland Paris sont directement accessibles par l'autoroute A86.",
-                    en: "Attend world-class events: Stade de France is minutes away via Tram T1, while Paris La Défense Arena and Disneyland Paris are directly reachable via the A86 highway.",
-                    de: "Erleben Sie Top-Events: Das Stade de France ist nur wenige Minuten mit der Tram T1 entfernt; Paris La Défense Arena und Disneyland Paris sind direkt über die A86 erreichbar.",
-                    es: "Asista a grandes eventos: el Stade de France está a pocos minutos en Tranvía T1, mientras que Paris La Défense Arena y Disneyland París tienen acceso directo por la autopista A86."
+                    fr: "Emplacement idéal pour les grands événements : Stade de France (via Tram T1), Paris La Défense Arena et Disneyland Paris (accès direct via l'A86).",
+                    en: "Ideal base for major events: Stade de France (via Tram T1), Paris La Défense Arena, and Disneyland Paris (direct access via the A86 highway).",
+                    de: "Idealer Ausgangspunkt für Events: Stade de France (mit Tram T1), Paris La Défense Arena und Disneyland Paris (direkt über die A86).",
+                    es: "Ubicación ideal para grandes eventos: Stade de France (en tranvía T1), Paris La Défense Arena y Disneyland París (acceso directo por la A86)."
                 },
                 details: {
-                    fr: "• Stade de France (Saint-Denis) : Matchs internationaux, rugby, football et méga-concerts (accès direct en Tram T1).\n• Paris La Défense Arena : Plus grande salle d'Europe (15 min via l'A86).\n• Disneyland Paris : Excursion journée idéale en famille (40 min via l'A86 ou liaison RER).",
-                    en: "• Stade de France (Saint-Denis): International football/rugby matches and stadium concerts (direct Tram T1 access).\n• Paris La Défense Arena: Europe's largest indoor venue (15 min via A86).\n• Disneyland Paris: Perfect family day trip (40 min via A86 or RER connection).",
-                    de: "• Stade de France (Saint-Denis): Länderspiele, Rugby und Stadionkonzerte (direkt mit Tram T1).\n• Paris La Défense Arena: Europas größte Veranstaltungshalle (15 Min. über A86).\n• Disneyland Paris: Idealer Tagesausflug für Familien (40 Min. über A86 oder RER).",
-                    es: "• Stade de France (Saint-Denis): Partidos internacionales, rugby y grandes conciertos (acceso directo en Tranvía T1).\n• Paris La Défense Arena: El mayor recinto cubierto de Europa (15 min por A86).\n• Disneyland París: Excursión familiar perfecta (40 min por A86 o conexión RER)."
-                },
-                practical: "Réservation des billets en ligne obligatoire pour les spectacles & parcs",
-                access: "Tram T1 (Stade de France) • Autoroute A86 (La Défense Arena & Disneyland)",
-                url: "https://www.stadefrance.com"
+                    fr: "• Stade de France (Saint-Denis) : concerts internationaux, rugby et football accessibles directement via le Tramway T1.\n• Paris La Défense Arena : plus grande salle de spectacle d'Europe à 15 min via l'A86.\n• Disneyland Paris : accès direct en voiture par l'autoroute A86 puis A4 (env. 35-40 min).",
+                    en: "• Stade de France (Saint-Denis): international concerts, rugby, and football easily reached via Tramway T1.\n• Paris La Défense Arena: Europe's largest indoor venue just 15 min away via A86.\n• Disneyland Paris: direct drive via A86 and A4 highways (approx. 35-40 min).",
+                    de: "• Stade de France (Saint-Denis): Konzerte, Rugby und Fußball direkt mit der Straßenbahn T1 erreichbar.\n• Paris La Défense Arena: Europas größte Veranstaltungshalle in 15 Min. über die A86.\n• Disneyland Paris: Direkte Autofahrt über A86 und A4 (ca. 35-40 Min.).",
+                    es: "• Stade de France (Saint-Denis): conciertos internacionales, rugby y fútbol accesibles en tranvía T1.\n• Paris La Défense Arena: el mayor recinto cubierto de Europa a 15 min por la A86.\n• Disneyland París: acceso directo en coche por la A86 y A4 (aprox. 35-40 min)."
+                }
             },
             {
                 id: 5,
                 icon: "ph-shopping-bag",
-                accentColor: "bg-terracotta-500",
+                accentColor: "bg-amber-700",
+                access: "Villeneuve-la-Garenne (5 min)",
                 titles: {
-                    fr: "Commerces, Qwartz & Vie Pratique",
-                    en: "Shopping, Qwartz Mall & Local Services",
-                    de: "Einkaufen, Qwartz-Center & Nahversorgung",
-                    es: "Compras, Centro Qwartz y Servicios Locales"
+                    fr: "Commerces, Gastronomie & Centre Qwartz",
+                    en: "Shopping, Dining & Qwartz Regional Mall",
+                    de: "Einkaufen, Gastronomie & Einkaufszentrum Qwartz",
+                    es: "Compras, Gastronomía y Centro Comercial Qwartz"
                 },
                 summaries: {
-                    fr: "Tout le nécessaire à proximité immédiate du logement : grand centre commercial régional Qwartz (hypermarché, boutiques, restaurants), boulangeries artisanales, pharmacies et marché local.",
-                    en: "Everything you need close to the accommodation: Qwartz regional shopping mall (hypermarket, shops, restaurants), artisan bakeries, pharmacies, and local open-air market.",
-                    de: "Alles für den täglichen Bedarf in direkter Nähe der Unterkunft: Einkaufszentrum Qwartz (Supermarkt, Geschäfte, Restaurants), Bäckereien, Apotheken und Wochenmarkt.",
-                    es: "Todo lo necesario cerca del alojamiento: centro comercial regional Qwartz (hipermercado, tiendas, restaurantes), panaderías artesanales, farmacias y mercado local."
+                    fr: "Toutes les commodités sur place : grand centre commercial Qwartz (hypermarché, 165 boutiques, restaurants) ainsi que boulangeries et marchés de quartier.",
+                    en: "All amenities nearby: Qwartz regional shopping mall (hypermarket, 165 stores, restaurants) plus local bakeries and open-air markets.",
+                    de: "Alle Einkaufsmöglichkeiten vor Ort: Einkaufszentrum Qwartz (Supermarkt, 165 Geschäfte, Restaurants) sowie Bäckereien und Wochenmärkte.",
+                    es: "Todos los servicios cerca: gran centro comercial Qwartz (hipermercado, 165 tiendas, restaurantes), además de panaderías y mercados locales."
                 },
                 details: {
-                    fr: "• Centre Commercial Qwartz (Villeneuve-la-Garenne) : Plus de 165 boutiques, hypermarché Carrefour (courses alimentaires) et espace restauration ouvert 7j/7.\n• Commerces de quartier : Boulangeries, pharmacies, banques et supermarchés de proximité accessibles à pied.",
-                    en: "• Qwartz Shopping Center (Villeneuve-la-Garenne): Over 165 stores, Carrefour hypermarket for groceries, and dining area open 7 days a week.\n• Neighborhood shops: Bakeries, pharmacies, banks, and local convenience stores within walking distance.",
-                    de: "• Einkaufszentrum Qwartz (Villeneuve-la-Garenne): Über 165 Geschäfte, Carrefour-Hypermarkt für Lebensmittel und Restaurants (7 Tage/Woche geöffnet).\n• Nahversorgung: Bäckereien, Apotheken, Banken und Supermärkte fußläufig erreichbar.",
-                    es: "• Centro Comercial Qwartz (Villeneuve-la-Garenne): Más de 165 tiendas, hipermercado Carrefour y zona de restauración abierta los 7 días.\n• Comercios de barrio: Panaderías, farmacias, bancos y supermercados cercanos a pie."
-                },
-                practical: "Centre Qwartz : Lun–Sam 10h–20h30 • Dimanche 11h–19h (Hypermarché dès 08h30)",
-                access: "Boulevard Gallieni / Quai de Seine, Villeneuve-la-Garenne",
-                url: "https://www.qwartz-92.com"
+                    fr: "• Centre Commercial Qwartz (Boulevard Gallieni) : ouvert 7j/7 pour les courses alimentaires (Carrefour), shopping et restauration.\n• Centre-ville & Bords de Seine : boulangeries artisanales, pharmacies, banques et restaurants.\n• Marché municipal de Villeneuve-la-Garenne : produits frais, fruits, légumes et spécialités locales.",
+                    en: "• Qwartz Shopping Center (Bd Gallieni): open 7 days a week for groceries (Carrefour), fashion, and dining.\n• Town Center & Seine Riverbank: artisan bakeries, pharmacies, banks, and restaurants.\n• Local Street Market: fresh produce, fruits, vegetables, and French specialties.",
+                    de: "• Einkaufszentrum Qwartz (Bd Gallieni): 7 Tage geöffnet für Lebensmittel (Carrefour), Mode und Restaurants.\n• Stadtzentrum & Seine-Ufer: Bäckereien, Apotheken, Banken und Restaurants.\n• Wochenmarkt: Frisches Obst, Gemüse und französische Spezialitäten.",
+                    es: "• Centro Comercial Qwartz (Bd Gallieni): abierto los 7 días para supermercado (Carrefour), tiendas y restaurantes.\n• Centro y orillas del Sena: panaderías artesanales, farmacias, bancos y restaurantes.\n• Mercado local: productos frescos, frutas, verduras y especialidades."
+                }
             },
             {
                 id: 6,
                 icon: "ph-first-aid-kit",
                 accentColor: "bg-rose-700",
+                access: "Sur place / Assistance 24h/24",
                 titles: {
-                    fr: "Guide du Logement & Numéros d'Urgence",
+                    fr: "Vie Pratique du Logement & Numéros d'Urgence",
                     en: "Accommodation Guide & Emergency Numbers",
                     de: "Unterkunfts-Infos & Notrufnummern",
                     es: "Guía del Alojamiento y Teléfonos de Emergencia"
                 },
                 summaries: {
-                    fr: "Consignes essentielles pour votre confort dans le logement (Wi-Fi, tri sélectif, calme après 22h) et numéros d'urgence gratuits 24h/24 (112, 15, 17, 18) dans les 4 langues.",
-                    en: "Essential guidelines for your stay in the accommodation (Wi-Fi, recycling, quiet hours after 10 PM) and toll-free 24/7 emergency numbers (112, 15, 17, 18).",
-                    de: "Wichtige Hinweise für Ihren Aufenthalt in der Unterkunft (WLAN, Mülltrennung, Nachtruhe ab 22 Uhr) sowie kostenlose 24h-Notrufnummern (112, 15, 17, 18).",
-                    es: "Indicaciones esenciales para su estancia en el alojamiento (Wi-Fi, reciclaje, silencio tras las 22h) y teléfonos gratuitos de emergencia 24h (112, 15, 17, 18)."
+                    fr: "Informations essentielles pour votre séjour dans le logement (tri sélectif, calme de la résidence) et numéros d'urgence gratuits (112, 15, 17, 18).",
+                    en: "Essential information for your stay in the accommodation (recycling, quiet hours) and free emergency numbers (112, 15, 17, 18).",
+                    de: "Wichtige Infos für Ihren Aufenthalt in der Unterkunft (Mülltrennung, Ruhezeiten) und kostenlose Notrufnummern (112, 15, 17, 18).",
+                    es: "Información esencial para su estancia en el alojamiento (reciclaje, descanso) y teléfonos gratuitos de emergencia (112, 15, 17, 18)."
                 },
                 details: {
-                    fr: "• Urgences 24h/24 : 112 (Urgence UE multilingue) • 15 (SAMU / Médecin) • 17 (Police) • 18 (Pompiers).\n• Vie dans le logement : Merci de respecter le calme de la résidence entre 22h00 et 07h00, d'utiliser les bacs de tri sélectif et d'éteindre les appareils en quittant le logement.",
-                    en: "• 24/7 Emergencies: 112 (EU Multilingual) • 15 (Medical / Ambulance) • 17 (Police) • 18 (Fire Brigade).\n• House Rules: Please respect quiet hours between 10:00 PM and 7:00 AM, sort recyclables, and switch off appliances when leaving the accommodation.",
-                    de: "• Notruf 24/7: 112 (EU-Notruf mehrsprachig) • 15 (Notarzt) • 17 (Polizei) • 18 (Feuerwehr).\n• Hausordnung: Bitte Nachtruhe von 22:00 bis 07:00 Uhr einhalten, Müll trennen und Geräte beim Verlassen der Unterkunft ausschalten.",
-                    es: "• Emergencias 24h: 112 (Urgencias UE multilingüe) • 15 (Urgencias médicas) • 17 (Policía) • 18 (Bomberos).\n• Normas del alojamiento: Respete el descanso entre las 22:00 y las 07:00, separe los residuos para reciclaje y apague los aparatos al salir."
-                },
-                practical: "Numéro d'Urgence Européen : 112 (Gratuit, opérateurs multilingues 24h/24)",
-                access: "Pharmacies & Maison Médicale de garde à Villeneuve-la-Garenne",
-                url: "https://www.sante.fr"
+                    fr: "• Urgences Europe : 112 | SAMU (Médecin) : 15 | Police : 17 | Pompiers : 18.\n• Vie de l'immeuble : merci de respecter le calme après 22h00 et d'utiliser les bacs de tri sélectif.\n• Départ (Check-out) : merci de fermer les fenêtres, éteindre les lumières et déposer les clés selon les consignes.",
+                    en: "• European Emergency: 112 | Ambulance: 15 | Police: 17 | Fire Brigade: 18.\n• House Rules: please respect quiet hours after 10:00 PM and use the recycling bins.\n• Check-out: please close windows, switch off lights, and return keys as instructed.",
+                    de: "• Europa-Notruf: 112 | Notarzt: 15 | Polizei: 17 | Feuerwehr: 18.\n• Hausordnung: Bitte Nachtruhe ab 22:00 Uhr einhalten und Mülltrennung nutzen.\n• Abreise (Check-out): Bitte Fenster schließen, Lichter ausschalten und Schlüssel wie vereinbart hinterlegen.",
+                    es: "• Emergencias Europa: 112 | Ambulancia: 15 | Policía: 17 | Bomberos: 18.\n• Normas: por favor respete el descanso a partir de las 22:00 h y utilice los cubos de reciclaje.\n• Salida (Check-out): cierre las ventanas, apague las luces y deje las llaves según las indicaciones."
+                }
             }
         ];
 
@@ -516,11 +463,11 @@
             grid.innerHTML = brochuresData.map(item => `
                 <article class="brochure-card bg-white rounded-2xl border border-cream-200 shadow-sm hover:shadow-md transition-all p-5 flex flex-col justify-between">
                     <div>
-                        <!-- En-tête de la brochure -->
+                        <!-- En-tête de la brochure avec pictogramme explicite -->
                         <div class="flex items-start justify-between gap-3 mb-3.5">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl ${item.accentColor} text-white flex items-center justify-center shrink-0 shadow-sm">
-                                    <i class="ph-fill ${item.icon} text-xl"></i>
+                                <div class="w-11 h-11 rounded-xl ${item.accentColor} text-white flex items-center justify-center shrink-0 shadow-sm" aria-hidden="true">
+                                    <i class="ph-fill ${item.icon} text-2xl"></i>
                                 </div>
                                 <div>
                                     <span class="text-[10px] font-bold uppercase tracking-wider text-terracotta-600 block">
@@ -531,36 +478,50 @@
                                     </h3>
                                 </div>
                             </div>
+
+                            <!-- Bouton Description Audio par brochure -->
+                            <button onclick="speakBrochure(${item.id}, this)" class="no-print px-2.5 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 font-semibold text-[11px] transition-colors shrink-0 flex items-center gap-1" title="Écouter la description audio de cette brochure">
+                                <i class="ph-fill ph-speaker-high text-sky-700"></i>
+                                <span>Audio</span>
+                            </button>
                         </div>
 
                         <!-- Grille des 4 langues -->
                         <div class="lang-grid-4 mb-4">
-                            <div class="lang-fr p-2.5 rounded-xl bg-cream-50 border border-cream-200/80 text-xs">
-                                <div class="font-bold text-slate-900 mb-0.5 flex items-center gap-1">
-                                    <span>🇫🇷</span> <span>${item.titles.fr}</span>
+                            <!-- Français -->
+                            <div class="lang-fr bg-cream-50 p-2.5 rounded-xl border border-cream-200/80">
+                                <div class="flex items-center gap-1.5 mb-1">
+                                    <span class="text-xs">🇫🇷</span>
+                                    <span class="text-[11px] font-bold text-slate-900">${item.titles.fr}</span>
                                 </div>
-                                <p class="text-slate-700 leading-relaxed">${item.summaries.fr}</p>
+                                <p class="text-xs text-slate-600 leading-relaxed">${item.summaries.fr}</p>
                             </div>
 
-                            <div class="lang-en p-2.5 rounded-xl bg-cream-50 border border-cream-200/80 text-xs">
-                                <div class="font-bold text-slate-900 mb-0.5 flex items-center gap-1">
-                                    <span>🇬🇧</span> <span>${item.titles.en}</span>
+                            <!-- Anglais -->
+                            <div class="lang-en bg-cream-50 p-2.5 rounded-xl border border-cream-200/80">
+                                <div class="flex items-center gap-1.5 mb-1">
+                                    <span class="text-xs">🇬🇧</span>
+                                    <span class="text-[11px] font-bold text-slate-900">${item.titles.en}</span>
                                 </div>
-                                <p class="text-slate-700 leading-relaxed">${item.summaries.en}</p>
+                                <p class="text-xs text-slate-600 leading-relaxed">${item.summaries.en}</p>
                             </div>
 
-                            <div class="lang-de p-2.5 rounded-xl bg-cream-50 border border-cream-200/80 text-xs">
-                                <div class="font-bold text-slate-900 mb-0.5 flex items-center gap-1">
-                                    <span>🇩🇪</span> <span>${item.titles.de}</span>
+                            <!-- Allemand -->
+                            <div class="lang-de bg-cream-50 p-2.5 rounded-xl border border-cream-200/80">
+                                <div class="flex items-center gap-1.5 mb-1">
+                                    <span class="text-xs">🇩🇪</span>
+                                    <span class="text-[11px] font-bold text-slate-900">${item.titles.de}</span>
                                 </div>
-                                <p class="text-slate-700 leading-relaxed">${item.summaries.de}</p>
+                                <p class="text-xs text-slate-600 leading-relaxed">${item.summaries.de}</p>
                             </div>
 
-                            <div class="lang-es p-2.5 rounded-xl bg-cream-50 border border-cream-200/80 text-xs">
-                                <div class="font-bold text-slate-900 mb-0.5 flex items-center gap-1">
-                                    <span>🇪🇸</span> <span>${item.titles.es}</span>
+                            <!-- Espagnol -->
+                            <div class="lang-es bg-cream-50 p-2.5 rounded-xl border border-cream-200/80">
+                                <div class="flex items-center gap-1.5 mb-1">
+                                    <span class="text-xs">🇪🇸</span>
+                                    <span class="text-[11px] font-bold text-slate-900">${item.titles.es}</span>
                                 </div>
-                                <p class="text-slate-700 leading-relaxed">${item.summaries.es}</p>
+                                <p class="text-xs text-slate-600 leading-relaxed">${item.summaries.es}</p>
                             </div>
                         </div>
                     </div>
@@ -580,10 +541,8 @@
             `).join('');
         }
 
-        // Panneau de personnalisation & Génération du vrai QR Code
-        function toggleSettingsPanel() {
-            document.getElementById('settings-panel').classList.toggle('hidden');
-        }
+        // Génération du vrai QR Code pointant vers l'URL officielle du livret
+        const LIVRET_URL = "https://mourad-bahloul.github.io/lcdvlg.github.io/";
 
         function generateQRCode(targetUrl) {
             const container = document.getElementById('qrcode-container');
@@ -608,48 +567,102 @@
             }
         }
 
-        function updatePropertyInfo() {
-            const defaultUrl = "https://mourad-bahloul.github.io/lcdvlg.github.io/";
-            const name = document.getElementById('input-property-name').value || "Bienvenue à Villeneuve-la-Garenne — Votre Logement aux portes de Paris";
-            const address = document.getElementById('input-property-address').value || "Villeneuve-la-Garenne (92390), Île-de-France";
-            const wifi = document.getElementById('input-property-wifi').value || "Logement_VLG_WiFi / Clé : Paris2026";
-            const phone = document.getElementById('input-property-phone').value || "+33 (0)6 60 70 95 71";
-            const url = document.getElementById('input-property-url').value.trim() || defaultUrl;
+        // Accessibilité : Mode Caractères Agrandis & Contraste Élevé
+        function toggleAccessibilityMode() {
+            const htmlEl = document.documentElement;
+            const bodyEl = document.body;
+            const btn = document.getElementById('btn-a11y');
+            const isLarge = htmlEl.classList.toggle('a11y-large');
+            bodyEl.classList.toggle('a11y-contrast', isLarge);
 
-            document.getElementById('display-property-name').textContent = name;
-            document.getElementById('footer-property-name').textContent = name;
-            document.getElementById('display-property-address').textContent = address;
-            document.getElementById('display-property-wifi').textContent = wifi;
-            document.getElementById('display-property-phone').textContent = phone;
-
-            const urlDisplay = document.getElementById('display-property-url');
-            urlDisplay.textContent = url;
-            urlDisplay.href = url;
-
-            generateQRCode(url);
-
-            try {
-                localStorage.setItem('livret_logement_villeneuve_config', JSON.stringify({ name, address, wifi, phone, url }));
-            } catch (e) {}
+            if (btn) {
+                btn.setAttribute('aria-pressed', isLarge ? 'true' : 'false');
+                if (isLarge) {
+                    btn.classList.remove('bg-amber-100', 'text-slate-900');
+                    btn.classList.add('bg-slate-900', 'text-amber-300', 'border-slate-900');
+                } else {
+                    btn.classList.add('bg-amber-100', 'text-slate-900');
+                    btn.classList.remove('bg-slate-900', 'text-amber-300', 'border-slate-900');
+                }
+            }
         }
 
-        function loadSavedPropertyInfo() {
-            try {
-                const saved = localStorage.getItem('livret_logement_villeneuve_config');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    if (data.name) document.getElementById('input-property-name').value = data.name;
-                    if (data.address) document.getElementById('input-property-address').value = data.address;
-                    if (data.wifi) document.getElementById('input-property-wifi').value = data.wifi;
-                    if (data.phone) document.getElementById('input-property-phone').value = data.phone;
-                    if (data.url) document.getElementById('input-property-url').value = data.url;
-                }
-            } catch (e) {}
-            updatePropertyInfo();
+        // Accessibilité : Synthèse vocale / Description audio multilingue
+        let currentLangMode = 'all';
+
+        function getSpeechLangCode() {
+            if (currentLangMode === 'en') return 'en-GB';
+            if (currentLangMode === 'de') return 'de-DE';
+            if (currentLangMode === 'es') return 'es-ES';
+            return 'fr-FR';
+        }
+
+        function getActiveLangKey() {
+            if (['en', 'de', 'es'].includes(currentLangMode)) return currentLangMode;
+            return 'fr';
+        }
+
+        function speakText(text, langCode, onEndCallback) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = langCode;
+            utterance.rate = 0.95;
+            if (onEndCallback) {
+                utterance.onend = onEndCallback;
+                utterance.onerror = onEndCallback;
+            }
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakPageSummary() {
+            if (!('speechSynthesis' in window)) return;
+            const label = document.getElementById('label-audio-global');
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                if (label) label.textContent = 'Écouter (Audio)';
+                return;
+            }
+            const langKey = getActiveLangKey();
+            const intros = {
+                fr: "Bienvenue à Villeneuve-la-Garenne, votre logement aux portes de Paris. Six brochures d'informations sont disponibles : Paris et ses monuments en moins de trente minutes, les transports et l'autoroute A86, le Parc des Chanteraines et les activités sportives, les grands spectacles au Stade de France, les commerces Qwartz, et les numéros d'urgence.",
+                en: "Welcome to Villeneuve-la-Garenne, your accommodation at the gates of Paris. Six information brochures are available: Paris and its monuments in under thirty minutes, public transit and the A86 highway, Parc des Chanteraines and local sports, major events at Stade de France, Qwartz shopping center, and emergency numbers.",
+                de: "Willkommen in Villeneuve-la-Garenne, Ihrer Unterkunft vor den Toren von Paris. Sechs Informationsbroschüren stehen bereit: Paris in unter dreißig Minuten, Nahverkehr und Autobahn A86, Parc des Chanteraines und Sport, Großveranstaltungen im Stade de France, Einkaufszentrum Qwartz sowie Notrufnummern.",
+                es: "Bienvenido a Villeneuve-la-Garenne, su alojamiento a las puertas de París. Hay seis folletos informativos disponibles: París y sus monumentos en menos de treinta minutos, transporte público y autopista A86, Parque des Chanteraines y deportes, grandes espectáculos en el Stade de France, centro comercial Qwartz y teléfonos de emergencia."
+            };
+            if (label) label.textContent = 'Arrêter Audio';
+            speakText(intros[langKey], getSpeechLangCode(), () => {
+                if (label) label.textContent = 'Écouter (Audio)';
+            });
+        }
+
+        function speakBrochure(id, btnEl) {
+            if (!('speechSynthesis' in window)) return;
+            const item = brochuresData.find(b => b.id === id);
+            if (!item) return;
+
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                return;
+            }
+
+            const langKey = getActiveLangKey();
+            const textToRead = `${item.titles[langKey]}. ${item.summaries[langKey]}. ${item.details[langKey].replace(/•/g, '')}`;
+            const span = btnEl ? btnEl.querySelector('span') : null;
+            if (span) span.textContent = 'Stop';
+
+            speakText(textToRead, getSpeechLangCode(), () => {
+                if (span) span.textContent = 'Audio';
+            });
         }
 
         // Sélecteur de langue (all, fr, en, de, es)
         function setLanguage(mode) {
+            currentLangMode = mode;
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            const globalAudioLabel = document.getElementById('label-audio-global');
+            if (globalAudioLabel) globalAudioLabel.textContent = 'Écouter (Audio)';
+
             document.body.classList.remove('lang-all', 'lang-fr', 'lang-en', 'lang-de', 'lang-es');
             document.body.classList.add(`lang-${mode}`);
 
@@ -657,7 +670,6 @@
                 btn.classList.remove('bg-slate-900', 'text-white', 'shadow-sm', 'font-semibold');
                 btn.classList.add('text-slate-700', 'font-medium');
             });
-
             const activeBtn = document.getElementById(`btn-lang-${mode}`);
             if (activeBtn) {
                 activeBtn.classList.remove('text-slate-700', 'font-medium');
@@ -665,43 +677,49 @@
             }
         }
 
-        // Modale détaillée quadrilingue
+        // Modale détaillée en 4 langues
         function openModal(id) {
             const item = brochuresData.find(b => b.id === id);
             if (!item) return;
 
-            document.getElementById('modal-badge-num').textContent = `Brochure 0${item.id}`;
-            document.getElementById('modal-title').textContent = `${item.titles.fr} / ${item.titles.en}`;
-            document.getElementById('modal-practical').textContent = item.practical;
-            document.getElementById('modal-access').textContent = item.access;
-            document.getElementById('modal-external-link').href = item.url;
+            document.getElementById('modal-badge').textContent = `Brochure 0${item.id} / 06`;
+            document.getElementById('modal-time').textContent = item.access;
 
-            const langs = [
-                { flag: "🇫🇷", name: "Français", title: item.titles.fr, summary: item.summaries.fr, detail: item.details.fr },
-                { flag: "🇬🇧", name: "English", title: item.titles.en, summary: item.summaries.en, detail: item.details.en },
-                { flag: "🇩🇪", name: "Deutsch", title: item.titles.de, summary: item.summaries.de, detail: item.details.de },
-                { flag: "🇪🇸", name: "Español", title: item.titles.es, summary: item.summaries.es, detail: item.details.es }
+            const langBlocks = [
+                { key: 'fr', flag: '🇫🇷', label: 'Français' },
+                { key: 'en', flag: '🇬🇧', label: 'English' },
+                { key: 'de', flag: '🇩🇪', label: 'Deutsch' },
+                { key: 'es', flag: '🇪🇸', label: 'Español' }
             ];
 
-            document.getElementById('modal-lang-blocks').innerHTML = langs.map(l => `
-                <div class="p-4 rounded-xl bg-cream-50 border border-cream-200 text-xs space-y-2">
-                    <div class="font-bold text-slate-900 flex items-center gap-1.5 border-b border-cream-200 pb-1.5">
-                        <span>${l.flag}</span>
-                        <span>${l.name} — ${l.title}</span>
-                    </div>
-                    <p class="text-slate-700 leading-relaxed">${l.summary}</p>
-                    <p class="text-slate-800 font-medium whitespace-pre-line bg-white p-2.5 rounded-lg border border-cream-200/80">${l.detail}</p>
+            document.getElementById('modal-body').innerHTML = `
+                <div class="space-y-4">
+                    ${langBlocks.map(l => `
+                        <div class="lang-${l.key} bg-cream-50 p-4 rounded-xl border border-cream-200">
+                            <div class="flex items-center gap-2 mb-1.5">
+                                <span class="text-base">${l.flag}</span>
+                                <h4 class="font-serif font-bold text-slate-900 text-base">${item.titles[l.key]}</h4>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-700 whitespace-pre-line leading-relaxed">${item.details[l.key]}</p>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
 
-            document.getElementById('brochure-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('brochure-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
         function closeModal() {
-            document.getElementById('brochure-modal').classList.add('hidden');
-            document.body.style.overflow = '';
+            const modal = document.getElementById('brochure-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
+
+        document.getElementById('brochure-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'brochure-modal') closeModal();
+        });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeModal();
@@ -709,7 +727,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             renderBrochures();
-            loadSavedPropertyInfo();
+            generateQRCode(LIVRET_URL);
         });
     </script>
 </body>
